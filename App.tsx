@@ -2,22 +2,9 @@ import * as React from "react";
 import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-const HomeScreen = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home!</Text>
-    </View>
-  );
-};
-
-const SettingsScreen = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
+import { Project } from "./App/Screen/Project";
+import { Files } from "./App/Screen/Files";
+import { Inbox } from "./App/Screen/Inbox";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,8 +12,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen name="Project" component={Project} />
+        <Tab.Screen name="Files" component={Files} />
+        <Tab.Screen name="Inbox" component={Inbox} />
       </Tab.Navigator>
     </NavigationContainer>
   );
