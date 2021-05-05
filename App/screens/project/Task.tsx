@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-export const Inbox = () => {
+export const Task = () => {
   return (
     <View>
       <Text>Home!</Text>
