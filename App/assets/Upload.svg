@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="270" height="84" viewBox="0 0 270 84">
+  <g id="Group_108" data-name="Group 108" transform="translate(-55 -644)">
+    <g id="Rectangle_91" data-name="Rectangle 91" transform="translate(55 644)" fill="none" stroke="#707070" stroke-width="1">
+      <rect width="270" height="84" rx="10" stroke="none"/>
+      <rect x="0.5" y="0.5" width="269" height="83" rx="9.5" fill="none"/>
+    </g>
+    <g id="Icon_feather-upload" data-name="Icon feather-upload" transform="translate(166.5 654)">
+      <path id="Path_61" data-name="Path 61" d="M28,22.5v5.222a2.611,2.611,0,0,1-2.611,2.611H7.111A2.611,2.611,0,0,1,4.5,27.722V22.5" transform="translate(0 -2.333)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+      <path id="Path_62" data-name="Path 62" d="M23.556,11.028,17.028,4.5,10.5,11.028" transform="translate(-0.778)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+      <path id="Path_63" data-name="Path 63" d="M18,4.5V20.167" transform="translate(-1.75)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
+    </g>
+    <text id="Upload_Files" data-name="Upload Files" transform="translate(147 706)" font-size="13" font-family="SegoeUI-Semibold, Segoe UI" font-weight="600"><tspan x="0" y="0">Upload Files</tspan></text>
+  </g>
+</svg>      

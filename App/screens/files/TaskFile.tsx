@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, StyleSheet, FlatList, Dimensions } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const NUMCOLUMN = 2;
@@ -37,23 +30,21 @@ const files = [
   },
 ];
 
-const Files = ({ navigation }) => {
+const Files = () => {
   const renderFiles = ({ item }) => {
     if (item.empty) {
       return <View style={styles.hiddenItem} />;
     }
     return (
-      <TouchableOpacity onPress={() => navigation.navigate("TaskFolder")}>
-        <View style={styles.folder}>
-          <MaterialCommunityIcons
-            style={{ margin: -12, padding: 0 }}
-            name="folder"
-            size={120}
-            color="gray"
-          />
-          <Text style={{ fontSize: 14 }}>{item.name}</Text>
-        </View>
-      </TouchableOpacity>
+      <View style={styles.folder}>
+        <MaterialCommunityIcons
+          style={{ margin: -12, padding: 0 }}
+          name="folder"
+          size={120}
+          color="gray"
+        />
+        <Text style={{ fontSize: 14 }}>{item.name}</Text>
+      </View>
     );
   };
 
