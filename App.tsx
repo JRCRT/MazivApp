@@ -9,14 +9,14 @@ import Login from "./App/screens/login/Login";
 const Drawer = createDrawerNavigator();
 
 const App = () => {
-    return (
-        <NavigationContainer>
-            <Drawer.Navigator>
-                <Drawer.Screen name="Login" component={Login} />
-                <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
-            </Drawer.Navigator>
-        </NavigationContainer>
-    );
+  return (
+    <NavigationContainer>
+      <Drawer.Navigator>
+        <Drawer.Screen name="Login" component={Login} />
+        <Drawer.Screen name="MainTabScreen" component={MainTabScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
+  );
 };
 
 export default App;
