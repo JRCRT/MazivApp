@@ -19,114 +19,131 @@ import TaskFile from "./files/TaskFile";
 //Inbox/Message Screen
 import Inbox from "./inbox/Inbox";
 
+//login
+import Login from "./login/Login";
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const LoginStack = ({ navigation }) => {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} />
+        </Stack.Navigator>
+    );
+};
+
 const ProjectStack = ({ navigation }) => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Project"
-        component={Project}
-        options={{
-          title: "Project",
-          headerLeft: () => (
-            <FontAwesome
-              onPress={() => navigation.openDrawer()}
-              style={{ marginLeft: 10 }}
-              color={"black"}
-              size={23}
-              name={"navicon"}
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Project"
+                component={Project}
+                options={{
+                    title: "Project",
+                    headerLeft: () => (
+                        <FontAwesome
+                            onPress={() => navigation.openDrawer()}
+                            style={{ marginLeft: 10 }}
+                            color={"black"}
+                            size={23}
+                            name={"navicon"}
+                        />
+                    ),
+                }}
             />
-          ),
-        }}
-      />
-      <Stack.Screen name="Task" component={Task} />
-      <Stack.Screen name="TaskDetails" component={TaskDetails} />
-    </Stack.Navigator>
-  );
+            <Stack.Screen name="Task" component={Task} />
+            <Stack.Screen name="TaskDetails" component={TaskDetails} />
+        </Stack.Navigator>
+    );
 };
 
 const FilesStack = ({ navigation }) => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Files"
-        component={Files}
-        options={{
-          title: "Files",
-          headerLeft: () => (
-            <FontAwesome
-              onPress={() => navigation.openDrawer()}
-              style={{ marginLeft: 10 }}
-              color={"black"}
-              size={23}
-              name={"navicon"}
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Files"
+                component={Files}
+                options={{
+                    title: "Files",
+                    headerLeft: () => (
+                        <FontAwesome
+                            onPress={() => navigation.openDrawer()}
+                            style={{ marginLeft: 10 }}
+                            color={"black"}
+                            size={23}
+                            name={"navicon"}
+                        />
+                    ),
+                }}
             />
-          ),
-        }}
-      />
-      <Stack.Screen name="TaskFolder" component={TaskFolder} />
-      <Stack.Screen name="TaskFile" component={TaskFile} />
-    </Stack.Navigator>
-  );
+            <Stack.Screen name="TaskFolder" component={TaskFolder} />
+            <Stack.Screen name="TaskFile" component={TaskFile} />
+        </Stack.Navigator>
+    );
 };
 
 const InboxStack = ({ navigation }) => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Inbox"
-        component={Inbox}
-        options={{
-          title: "Inbox",
-          headerLeft: () => (
-            <FontAwesome
-              onPress={() => navigation.openDrawer()}
-              style={{ marginLeft: 10 }}
-              color={"black"}
-              size={23}
-              name={"navicon"}
+    return (
+        <Stack.Navigator>
+            <Stack.Screen
+                name="Inbox"
+                component={Inbox}
+                options={{
+                    title: "Inbox",
+                    headerLeft: () => (
+                        <FontAwesome
+                            onPress={() => navigation.openDrawer()}
+                            style={{ marginLeft: 10 }}
+                            color={"black"}
+                            size={23}
+                            name={"navicon"}
+                        />
+                    ),
+                }}
             />
-          ),
-        }}
-      />
-    </Stack.Navigator>
-  );
+        </Stack.Navigator>
+    );
 };
 
 const MainTabScreen = () => {
-  return (
-    <Portal.Host>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color, size }) => {
-            let iconName;
+    return (
+        <Portal.Host>
+            <Tab.Navigator
+                screenOptions={({ route }) => ({
+                    tabBarIcon: ({ color, size }) => {
+                        let iconName;
 
-            if (route.name === "Project") {
-              iconName = "home";
-            } else if (route.name === "Files") {
-              iconName = "folder";
-            } else if (route.name === "Inbox") {
-              iconName = "inbox";
-            }
+                        if (route.name === "Project") {
+                            iconName = "home";
+                        } else if (route.name === "Files") {
+                            iconName = "folder";
+                        } else if (route.name === "Inbox") {
+                            iconName = "inbox";
+                        }
 
-            // You can return any component that you like here!
-            return <FontAwesome name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: primaryColor,
-          inactiveTintColor: "gray",
-          keyboardHidesTabBar: true,
-        }}
-      >
-        <Tab.Screen name="Project" component={ProjectStack} />
-        <Tab.Screen name="Files" component={FilesStack} />
-        <Tab.Screen name="Inbox" component={InboxStack} />
-      </Tab.Navigator>
-    </Portal.Host>
-  );
+                        // You can return any component that you like here!
+                        return (
+                            <FontAwesome
+                                name={iconName}
+                                size={size}
+                                color={color}
+                            />
+                        );
+                    },
+                })}
+                tabBarOptions={{
+                    activeTintColor: primaryColor,
+                    inactiveTintColor: "gray",
+                    keyboardHidesTabBar: true,
+                }}
+            >
+                <Tab.Screen name="Project" component={ProjectStack} />
+                <Tab.Screen name="Files" component={FilesStack} />
+                <Tab.Screen name="Inbox" component={InboxStack} />
+            </Tab.Navigator>
+        </Portal.Host>
+    );
 };
 
 export default MainTabScreen;
