@@ -33,7 +33,11 @@ const sheetRef = createRef<BottomSheet>();
 const DATA = [
   {
     id: "1",
-    title: "First Item",
+    projectName: "2 STOREY BUILDING",
+    dateCreated: "Mar 10, 2021",
+    completionDate: "Jun 10, 2021",
+    cost: "1M",
+    location: "Valenzuela City",
   },
 ];
 
@@ -67,7 +71,9 @@ const FormatData = (DATA, numColumn) => {
 const Project = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState("");
+
   const renderProjectCard = ({ item }) => {
+    const { projectName, dateCreated, completionDate, cost, location } = item;
     if (item.empty) {
       return <View style={styles.hiddenItem} />;
     }
@@ -95,9 +101,7 @@ const Project = ({ navigation }) => {
           />
         </View>
         <View style={styles.itemBody}>
-          <Text style={{ fontSize: 17, color: "black" }}>
-            2 STOREY BUILDING
-          </Text>
+          <Text style={{ fontSize: 17, color: "black" }}>{projectName}</Text>
           <View
             style={{
               flexDirection: "row",
@@ -122,7 +126,7 @@ const Project = ({ navigation }) => {
                 }}
               >
                 <FontAwesome5 name="calendar-alt" size={15} color="black" />
-                <Text style={styles.textTitle}>Mar 10, 2021</Text>
+                <Text style={styles.textTitle}>{dateCreated}</Text>
               </View>
               <View
                 style={{
@@ -135,7 +139,7 @@ const Project = ({ navigation }) => {
                   size={15}
                   color="black"
                 />
-                <Text style={styles.textTitle}>1M</Text>
+                <Text style={styles.textTitle}>{cost}</Text>
               </View>
             </View>
 
@@ -152,7 +156,7 @@ const Project = ({ navigation }) => {
                 }}
               >
                 <FontAwesome5 name="calendar-alt" size={15} color="black" />
-                <Text style={styles.textTitle}>Jun 10, 2021</Text>
+                <Text style={styles.textTitle}>{completionDate}</Text>
               </View>
               <View
                 style={{
@@ -161,7 +165,7 @@ const Project = ({ navigation }) => {
                 }}
               >
                 <Ionicons name="location-sharp" size={15} color="black" />
-                <Text style={styles.textTitle}>Valenzuela City</Text>
+                <Text style={styles.textTitle}>{location}</Text>
               </View>
             </View>
           </View>
