@@ -1,22 +1,33 @@
-import React from "react";
-import { Text, View, Image } from "react-native";
-import {
-  Container,
-  Header,
-  Title,
-  Form,
-  Item,
-  Input,
-  Button,
-} from "native-base";
+import React, { useState, useEffect } from "react";
+import { Text, View, Image, StyleSheet } from "react-native";
 import { KeyboardAvoidingView } from "react-native";
-import { useState } from "react/cjs/react.development";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
+import { Avatar, Portal, Button } from "react-native-paper";
+import { TextInput } from "react-native-gesture-handler";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { globalStyle, primaryColor } from "../../style/stylesheet";
+import db from "../../database/db";
+
 const Login = () => {
+  const account = db.collection("accounts");
+  const [accounts, setAccount] = useState([]);
+  function getAccounts() {
+    account.onSnapshot((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data());
+      });
+      setAccount(items);
+    });
+  }
+
+  useEffect(() => {
+    getAccounts();
+  }, []);
+
   const navigation = useNavigation();
   //username
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [emailError, setemailError] = useState("");
 
   //password
@@ -24,92 +35,71 @@ const Login = () => {
   const [passwordError, setPasswordError] = useState("");
 
   const signin = () => {
-    if (email === "admin" && password === "admin") {
-      alert("Logged In");
-      navigation.navigate("MainTabScreen");
+    for (let user of accounts) {
+      if (username === user.username && password === user.password) {
+        alert("Logged In");
+        navigation.navigate("MainTabScreen");
+      } else {
+        alert("wrong Credentials!");
+      }
     }
-    if (email != "") {
+    if (username != "") {
       setemailError("");
     } else {
-      setemailError("Email should not be empty");
+      setemailError("Username should not be empty");
     }
-
     if (password != "") {
       setPasswordError("");
     } else {
       setPasswordError("Password should not be empty");
     }
   };
+
   const forgot = () => {
     alert("forgot password");
   };
 
   return (
-    <Container>
-      <KeyboardAvoidingView behavior="position">
-        <Header
-          style={{
-            backgroundColor: "darkblue",
-            alignItems: "center",
+    <SafeAreaView style={styles.container}>
+      <View style={styles.logo}>
+        <Image
+          style={{ width: 300, height: 300 }}
+          source={require("../../assets/maziv_logo.png")}
+        />
+      </View>
+      <View style={styles.loginForm}>
+        <TextInput
+          onChangeText={(text) => setUsername(text)}
+          style={[globalStyle.textBox, { height: 45 }]}
+          placeholder="Username"
+        />
+        <TextInput
+          onChangeText={(text) => setPassword(text)}
+          style={[globalStyle.textBox, { height: 45 }]}
+          placeholder="Password"
+          secureTextEntry={true}
+        />
+
+        <Button
+          mode="contained"
+          color="white"
+          style={[globalStyle.buttonStyle, { marginTop: 10 }]}
+          onPress={() => {
+            signin();
           }}
         >
-          <Title
-            style={{
-              color: "#fff",
-              fontSize: 30,
-            }}
-          >
-            Maziv Builders Inc.
-          </Title>
-        </Header>
-
-        <View style={{ alignItems: "center", margin: 20 }}>
-          <Image
-            source={require("../../assets/maziv_logo.png")}
-            style={{ width: 300, height: 300 }}
-          />
-        </View>
-
-        <Form style={{ paddingLeft: 20, paddingRight: 20 }}>
-          <Item>
-            <Input
-              placeholder="Email/Phone Number"
-              value={email}
-              onChangeText={(email) => setEmail(email)}
-              onChange={() => setemailError("")}
-            ></Input>
-          </Item>
-          <Text style={{ color: "red", marginLeft: 20 }}>{emailError}</Text>
-          <Item style={{ marginTop: 20 }}>
-            <Input
-              secureTextEntry={true}
-              placeholder="Password"
-              value={password}
-              onChangeText={(password) => setPassword(password)}
-              onChange={() => setPasswordError("")}
-            ></Input>
-            <Text onPress={forgot} style={{ color: "blue" }}>
-              Forgot Password?
-            </Text>
-          </Item>
-          <Text style={{ color: "red", marginLeft: 20 }}>{passwordError}</Text>
-          <Item style={{ marginTop: 10 }}>
-            <Button
-              rounded
-              block
-              style={{ width: "100%", backgroundColor: "orange" }}
-            >
-              <Text
-                style={{ fontSize: 20, fontWeight: "bold" }}
-                onPress={signin}
-              >
-                SIGN IN
-              </Text>
-            </Button>
-          </Item>
-        </Form>
-      </KeyboardAvoidingView>
-    </Container>
+          <Text style={{ color: "black" }}>LOGIN</Text>
+        </Button>
+      </View>
+    </SafeAreaView>
   );
 };
 export default Login;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  logo: { alignItems: "center" },
+  loginForm: { margin: 5 },
+});

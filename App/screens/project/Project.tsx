@@ -1,4 +1,4 @@
-import React, { createRef, useState } from "react";
+import React, { createRef, useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -21,14 +21,15 @@ import {
   MaterialCommunityIcons,
   Feather,
 } from "@expo/vector-icons";
+import db from "../../database/db";
 import { globalStyle, primaryColor } from "../../style/stylesheet";
-import ProgressCircle from "react-native-progress-circle";
 import AddButton from "../../assets/AddButton.svg";
-
+import ProgressCircle from "react-native-progress-circle";
 const WIDTH = Dimensions.get("window").width;
 const numColumn = 2;
 const fall = new Animated.Value(1);
 const sheetRef = createRef<BottomSheet>();
+import { addProject } from "../../API/Query";
 
 const DATA = [
   {
@@ -36,17 +37,17 @@ const DATA = [
     projectName: "2 STOREY BUILDING",
     dateCreated: "Mar 10, 2021",
     completionDate: "Jun 10, 2021",
-    cost: "1M",
+    cost: "100",
     location: "Valenzuela City",
   },
 ];
 
-const DATA2 = [
-  {
-    id: "1",
-    title: "First Item",
-  },
-];
+const DATA2 = [{}];
+
+const Sample = {
+  name: "Jerico",
+  cost: 1000,
+};
 
 const renderHeader = () => (
   <View style={styles.header}>
@@ -69,8 +70,28 @@ const FormatData = (DATA, numColumn) => {
 };
 
 const Project = ({ navigation }) => {
+  const project = db.collection("projects");
+  const [projects, setProjects] = useState([]);
+  const [projectName, setProjectName] = useState("");
+  const [cost, setCost] = useState("");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isDatePickerVisible1, setDatePickerVisibility1] = useState(false);
   const [date, setDate] = useState("");
+  const [date1, setDate1] = useState("");
+
+  function getAccounts() {
+    project.onSnapshot((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data());
+      });
+      setProjects(items);
+    });
+  }
+
+  useEffect(() => {
+    getAccounts();
+  }, []);
 
   const renderProjectCard = ({ item }) => {
     const { projectName, dateCreated, completionDate, cost, location } = item;
@@ -190,15 +211,21 @@ const Project = ({ navigation }) => {
               }}
             >
               <TextInput
+                onChangeText={(text) => setProjectName(text)}
                 style={globalStyle.textBox}
                 placeholder="Project Name"
               />
-              <TextInput style={globalStyle.textBox} placeholder="Cost" />
+
+              <TextInput
+                onChangeText={(text) => setCost(text)}
+                style={globalStyle.textBox}
+                placeholder="Cost"
+              />
 
               <TouchableOpacity style={globalStyle.textBoxDate}>
                 <TextInput
-                  placeholder="Project Name"
-                  value={moment(date).format("MMMM Do YYYY")}
+                  placeholder="Date Started"
+                  value={date}
                   editable={false}
                   style={{ color: "black" }}
                 />
@@ -219,12 +246,26 @@ const Project = ({ navigation }) => {
                 onCancel={() => setDatePickerVisibility(false)}
               />
               <View style={globalStyle.textBoxDate}>
-                <TextInput placeholder="CompletionDate" />
-                <Feather name="calendar" size={23} />
+                <TextInput placeholder="Completion Date" value={date1} />
+                <Feather
+                  name="calendar"
+                  size={23}
+                  onPress={() => {
+                    setDatePickerVisibility1(true);
+                  }}
+                />
+                <DateTimePickerModal
+                  isVisible={isDatePickerVisible1}
+                  onConfirm={(date1) => {
+                    setDatePickerVisibility1(false);
+                    setDate1(date1.toString());
+                  }}
+                  onCancel={() => setDatePickerVisibility1(false)}
+                />
               </View>
 
               <View style={{ paddingHorizontal: 12, paddingVertical: 4 }}>
-                {DATA2.map((l, i) => (
+                {/* {DATA2.map((l, i) => (
                   <View
                     key={i}
                     style={{
@@ -242,7 +283,7 @@ const Project = ({ navigation }) => {
                       color="red"
                     />
                   </View>
-                ))}
+                ))} */}
               </View>
               <TouchableOpacity
                 style={{ paddingHorizontal: 12, marginBottom: 20 }}
@@ -253,7 +294,15 @@ const Project = ({ navigation }) => {
                 mode="contained"
                 color="white"
                 style={[globalStyle.buttonStyle]}
-                onPress={() => console.log("create")}
+                onPress={() => {
+                  const projectDetails = {
+                    projectName: projectName,
+                    cost: cost,
+                    dateCreated: moment(date).format("MM/DD/YYYY"),
+                    completionDate: moment(date1).format("MM/DD/YYYY"),
+                  };
+                  addProject(projectDetails);
+                }}
               >
                 <Text style={{ color: "black" }}>+ CREATE NEW PROJECT</Text>
               </Button>
@@ -269,7 +318,7 @@ const Project = ({ navigation }) => {
       </Portal>
 
       <FlatList
-        data={FormatData(DATA, numColumn)}
+        data={FormatData(projects, numColumn)}
         renderItem={renderProjectCard}
         keyExtractor={(item, index) => item.id}
         contentContainerStyle={styles.cardContainer}

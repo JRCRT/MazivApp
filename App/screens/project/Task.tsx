@@ -172,11 +172,11 @@ const TaskView = () => {
                 <View style={styles.taskInfo}>
                   <ProgressCircle
                     percent={90}
-                    radius={20}
-                    borderWidth={8}
+                    radius={15}
+                    borderWidth={5}
                     color="black"
                     shadowColor="#999"
-                    bgColor="white"
+                    bgColor="gray"
                   >
                     <Text style={{ fontSize: 8, color: "black" }}>{"90%"}</Text>
                   </ProgressCircle>
