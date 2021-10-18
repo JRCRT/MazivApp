@@ -11,7 +11,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const group = [
   {
     id: 1,
-    name: "Project 1",
+    name: "Project 7",
   },
 ];
 

@@ -30,7 +30,7 @@ const numColumn = 2;
 const fall = new Animated.Value(1);
 const sheetRef = createRef<BottomSheet>();
 import { addProject } from "../../API/Query";
-
+import { projectStyle } from "../../style/stylesheet";
 const DATA = [
   {
     id: "1",
