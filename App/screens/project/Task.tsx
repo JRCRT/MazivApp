@@ -2,7 +2,6 @@ import React, { createRef, useState } from "react";
 import {
   Text,
   View,
-  StyleSheet,
   FlatList,
   Dimensions,
   TouchableOpacity,
@@ -20,7 +19,7 @@ import { Portal, Button } from "react-native-paper";
 import AddButton from "../../assets/AddButton.svg";
 import Assign from "../../assets/Assign.svg";
 import GanttChart from "react-native-gantt-chart";
-import { globalStyle, primaryColor } from "../../style/stylesheet";
+import { globalStyle, primaryColor, taskStyle } from "../../style/stylesheet";
 import FacePile from "react-native-face-pile";
 import { useNavigation } from "@react-navigation/native";
 
@@ -29,8 +28,8 @@ const sheetRef = createRef<BottomSheet>();
 const WIDTH = Dimensions.get("window").width;
 
 const renderHeader = () => (
-  <View style={styles.header}>
-    <View style={styles.panelHeader}>
+  <View style={taskStyle.header}>
+    <View style={taskStyle.panelHeader}>
       <TouchableOpacity onPress={() => sheetRef.current.snapTo(1)}>
         <Text>Swipe down to close</Text>
       </TouchableOpacity>
@@ -78,19 +77,15 @@ const task = [
 const TaskView = () => {
   const navigation = useNavigation();
   return (
-    <View style={styles.taskContainer}>
+    <View style={taskStyle.taskContainer}>
       <Portal>
         <BottomSheet
           ref={sheetRef}
           renderHeader={renderHeader}
           renderContent={() => (
-            <View style={{ height: 360, backgroundColor: "white" }}>
+            <View style={taskStyle.bottomSheet}>
               <ScrollView
-                contentContainerStyle={{
-                  justifyContent: "flex-start",
-                  paddingHorizontal: 30,
-                  paddingVertical: 10,
-                }}
+                contentContainerStyle={taskStyle.bottomSheetContainer}
               >
                 <TextInput
                   style={globalStyle.textBox}
@@ -140,7 +135,7 @@ const TaskView = () => {
           enabledContentGestureInteraction={false}
         />
       </Portal>
-      <View style={styles.taskHeader}>
+      <View style={taskStyle.taskHeader}>
         <View
           style={{
             flexDirection: "row",
@@ -168,8 +163,8 @@ const TaskView = () => {
             <TouchableOpacity
               onPress={() => navigation.navigate("TaskDetails")}
             >
-              <View style={styles.task}>
-                <View style={styles.taskInfo}>
+              <View style={taskStyle.task}>
+                <View style={taskStyle.taskInfo}>
                   <ProgressCircle
                     percent={90}
                     radius={15}
@@ -180,16 +175,16 @@ const TaskView = () => {
                   >
                     <Text style={{ fontSize: 8, color: "black" }}>{"90%"}</Text>
                   </ProgressCircle>
-                  <View style={styles.taskDetails}>
+                  <View style={taskStyle.taskDetails}>
                     <Text>Task 1</Text>
-                    <View style={styles.dateContainer}>
-                      <View style={styles.date}>
-                        <Text style={styles.dateTitleText}>Start</Text>
-                        <Text style={styles.dateText}>Jan-20-21</Text>
+                    <View style={taskStyle.dateContainer}>
+                      <View style={taskStyle.date}>
+                        <Text style={taskStyle.dateTitleText}>Start</Text>
+                        <Text style={taskStyle.dateText}>Jan-20-21</Text>
                       </View>
-                      <View style={styles.date}>
-                        <Text style={styles.dateTitleText}>End</Text>
-                        <Text style={styles.dateText}>Jan-20-21</Text>
+                      <View style={taskStyle.date}>
+                        <Text style={taskStyle.dateTitleText}>End</Text>
+                        <Text style={taskStyle.dateText}>Jan-20-21</Text>
                       </View>
                     </View>
                   </View>
@@ -201,7 +196,7 @@ const TaskView = () => {
         }}
       ></FlatList>
       <TouchableOpacity
-        style={styles.addButton}
+        style={taskStyle.addButton}
         onPress={() => {
           sheetRef.current.snapTo(0);
         }}
@@ -212,6 +207,7 @@ const TaskView = () => {
   );
 };
 
+//GanttChart
 const GanttChartView = () => {
   return (
     <View style={{ flex: 1 }}>
@@ -242,81 +238,3 @@ const Task = () => {
 };
 
 export default Task;
-
-const styles = StyleSheet.create({
-  taskContainer: {
-    flex: 1,
-    marginHorizontal: 5,
-    alignItems: "center",
-  },
-  taskHeader: {
-    borderColor: "gray",
-    backgroundColor: "white",
-    width: "100%",
-    height: 45,
-    borderRadius: 5,
-    borderWidth: 1,
-    justifyContent: "flex-end",
-    marginVertical: 15,
-  },
-  taskBody: {},
-  task: {
-    borderColor: "gray",
-    backgroundColor: "white",
-    borderRadius: 5,
-    borderWidth: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: 60,
-    marginBottom: 10,
-    paddingHorizontal: 5,
-    overflow: "hidden",
-  },
-  percentageContainer: {},
-  taskDetails: {
-    height: "100%",
-    justifyContent: "space-evenly",
-    marginLeft: 6,
-  },
-  taskInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  dateContainer: {
-    flexDirection: "row",
-  },
-  date: {
-    alignItems: "center",
-    marginRight: 5,
-  },
-  dateTitleText: {
-    fontSize: 8,
-  },
-  dateText: {
-    fontSize: 10,
-  },
-  addButton: {
-    position: "absolute",
-    margin: 16,
-    right: 0,
-    bottom: 0,
-  },
-  panelHeader: {
-    alignItems: "center",
-  },
-  header: {
-    backgroundColor: "#FFFFFF",
-    shadowColor: "#333333",
-    shadowOffset: { width: -1, height: -3 },
-    shadowRadius: 2,
-    shadowOpacity: 0.4,
-    paddingTop: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-  },
-  logo: {
-    width: 66,
-    height: 58,
-  },
-});

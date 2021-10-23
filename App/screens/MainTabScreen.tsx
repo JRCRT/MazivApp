@@ -23,18 +23,9 @@ import Inbox from "./inbox/Inbox";
 import AdminPanel from "./adminpanel/AdminPanel";
 
 //login
-import Login from "./login/Login";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
-const LoginStack = ({ navigation }) => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={Login} />
-    </Stack.Navigator>
-  );
-};
 
 const ProjectStack = ({ navigation }) => {
   return (
